@@ -4,9 +4,36 @@ int main(int ac, char **argv){
     char *prompt = "(PiShell) $ ";
     char *lineptr = NULL;
     size_t len = 0;
+    char *delim = " ";
 
-    ssize_t line_size = getline(&lineptr, &len, stdin);
-    printf("%s\n", lineptr);
+    while(1){
+        printf("%s", prompt);
+        ssize_t line_size = getline(&lineptr, &len, stdin);
+        if (line_size == -1){
+            printf("\nExiting PiShell\n");
+            break;
+        }
+        char *saveptr;
+        char *p = strtok_r(lineptr, delim, &saveptr);
+        char **arr = NULL;
+        int n_spaces = 0;
+        while(p){
+            n_spaces++;
+            arr = realloc(arr, sizeof(char*) * n_spaces);
+            if (arr == NULL){
+                exit(EXIT_FAILURE);
+            }
+            arr[n_spaces-1] = p;
 
-    printf("%s", prompt);
+            p = strtok_r(NULL, delim, &saveptr);
+        }
+        arr = realloc(arr, sizeof(char*) * n_spaces);
+        arr[n_spaces] = NULL;
+
+        for (int i = 0; i < n_spaces; i++){
+            printf("%s\n", arr[i]);
+        }
+    }
+
+    exit(EXIT_SUCCESS);
 }
