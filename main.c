@@ -16,22 +16,21 @@ int main(int ac, char **argv){
         }
         char *saveptr;
         char *p = strtok_r(lineptr, delim, &saveptr);
-        char **arr = malloc(80);
+        char **arr = NULL;
         int n_spaces = 0;
         while(p){
             n_spaces++;
-            // arr = realloc(arr, sizeof(char*) * n_spaces);
-            // if (arr == NULL){
-            //     exit(EXIT_FAILURE);
-            // }
-            arr[n_spaces-1] = malloc(sizeof(char*));
+            char **tmp = realloc(arr, sizeof(char*) * n_spaces);
+            if (tmp == NULL){
+                exit(EXIT_FAILURE);
+            }
+            else{
+                arr = tmp;
+            }
             arr[n_spaces-1] = p;
 
             p = strtok_r(NULL, delim, &saveptr);
         }
-        // arr = realloc(arr, sizeof(char*) * n_spaces);
-        arr[n_spaces] = malloc(sizeof(char*));
-        arr[n_spaces] = NULL;
 
         for (int i = 0; i < n_spaces; i++){
             printf("%s\n", arr[i]);
