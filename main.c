@@ -2,11 +2,11 @@
 
 int main(int ac, char **argv){
     char *prompt = "(PiShell) $ ";
-    char *lineptr = NULL;
     size_t len = 0;
     char *delim = " ";
 
     while(1){
+    char *lineptr = NULL;
         printf("%s", prompt);
         ssize_t line_size = getline(&lineptr, &len, stdin);
         if (line_size == -1){
@@ -36,6 +36,7 @@ int main(int ac, char **argv){
             printf("%s\n", arr[i]);
         }
         free(arr);
+        free(lineptr);
     }
 
     exit(EXIT_SUCCESS);
