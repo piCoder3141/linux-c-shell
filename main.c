@@ -1,9 +1,26 @@
 #include "main.h"
 
+int _ls(const char *path){
+    DIR *dp;
+    struct dirent *entry;
+
+    dp = opendir(path);
+    if (dp == NULL){
+        perror("Error");
+        return -1;
+    }
+
+    while (entry = readdir(dp)){
+        printf("%s\n", entry->d_name);
+    }
+    closedir(dp);
+    return 0;
+}
+
 int main(int ac, char **argv){
     char *prompt = "(PiShell) $ ";
     size_t len = 0;
-    char *delim = " ";
+    char *delim = " \n";
 
     while(1){
     char *lineptr = NULL;
@@ -32,8 +49,8 @@ int main(int ac, char **argv){
             p = strtok_r(NULL, delim, &saveptr);
         }
 
-        for (int i = 0; i < n_spaces; i++){
-            printf("%s\n", arr[i]);
+        if (strcmp(arr[0], "ls") == 0){
+            _ls(arr[1]);
         }
         free(arr);
         free(lineptr);
