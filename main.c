@@ -52,6 +52,9 @@ int main(int ac, char **argv){
         if (strcmp(arr[0], "ls") == 0){
             _ls(arr[1]);
         }
+        else if (strcmp(arr[0], "pwd") == 0){
+            printf("%s\n", getenv("PWD"));
+        }
         free(arr);
         free(lineptr);
     }
