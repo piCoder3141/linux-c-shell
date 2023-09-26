@@ -53,7 +53,14 @@ int main(int ac, char **argv){
             _ls(arr[1]);
         }
         else if (strcmp(arr[0], "pwd") == 0){
-            printf("%s\n", getenv("PWD"));
+            char *path_name = malloc(150);
+            path_name = getcwd(path_name, 150);
+            printf("%s\n", path_name);
+        }
+        else if (strcmp(arr[0], "cd") == 0){
+            if (chdir(arr[1]) != 0){
+                printf("%s\n", strerror(errno));
+            }
         }
         free(arr);
         free(lineptr);
